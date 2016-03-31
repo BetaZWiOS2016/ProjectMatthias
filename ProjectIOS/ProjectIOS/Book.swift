@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Book: NSObject,NSCoding{
+class Book: NSObject, NSCoding{
     
     // MARK: Properties
     
@@ -16,11 +16,6 @@ class Book: NSObject,NSCoding{
     var writer: String
     var cover: UIImage?
     var rating: Int
-    
-    // MARK: Archiving Paths
-    
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("books")
     
     // MARK: Types
     
@@ -61,11 +56,13 @@ class Book: NSObject,NSCoding{
         let writer = aDecoder.decodeObjectForKey(PropertyKey.writerKey) as! String
         
         // Because cover is an optional property of Book, use conditional cast.
-        let cover = aDecoder.decodeObjectForKey(PropertyKey.coverKey) as? UIImage
+        let cover = aDecoder.decodeObjectForKey(PropertyKey.coverKey) as! UIImage
         
         let rating = aDecoder.decodeIntegerForKey(PropertyKey.ratingKey)
         
-        self.init(title:title, writer:writer, cover: cover, rating:rating)
+        self.init(title:title, writer: writer, cover:cover, rating: rating)
     }
+    
+    
 }
 

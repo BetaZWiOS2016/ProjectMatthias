@@ -13,6 +13,9 @@ class BookTableViewController: UITableViewController {
     // MARK: Properties
     
     var books = [Book]()
+    var data : [Category]!
+
+    var category : Category!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,29 +23,17 @@ class BookTableViewController: UITableViewController {
         // Use the dit button item provided by the table view controller.
         navigationItem.leftBarButtonItem = editButtonItem()
         
-        // Load any saved meals, otherwise load sample data.
-        if let savedBooks = loadBooks(){
-            books += savedBooks
-        }
-            
-        else{
-            // Load the sample data
-            loadSampleBooks()
-        }
+        // Load any saved books, otherwise load sample data.
+        loadBooks()
+        
        
     }
     
-    func loadSampleBooks(){
-        let photo1 = UIImage(named:"book1")!
-        let book1 = Book(title: "Harry Potter and the Sorcerer's Stone(2001)",writer:"J.K. Rowling", cover: photo1, rating: 4)!
+    func loadBooks(){
         
-        let photo2 = UIImage(named: "book2")!
-        let book2 = Book(title: "A Game of Thrones", writer: "George R.R. Martin", cover: photo2, rating: 5)!
+        print(category?.books?.first?.title)
         
-        let photo3 = UIImage(named: "book3")
-        let book3 = Book(title: "The Da Vinci Code", writer: "Dan Brown", cover: photo3, rating: 3)!
-        
-        books += [book1, book2, book3]
+        books = (category?.books)!
     }
     
     override func didReceiveMemoryWarning() {
@@ -93,7 +84,7 @@ class BookTableViewController: UITableViewController {
         if editingStyle == .Delete {
             // Delete the row from the data source
             books.removeAtIndex(indexPath.row)
-            saveBooks()
+            saveData()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -128,17 +119,25 @@ class BookTableViewController: UITableViewController {
                 let indexPath = tableView.indexPathForCell(selectedBookCell)!
                 let selectedBook = books[indexPath.row]
                 bookDetailViewController.book = selectedBook
+                bookDetailViewController.category = category
             }
         }
             
         else if segue.identifier == "AddItem"{
             print("Adding new book.")
+            
+            let navViewController = segue.destinationViewController as! UINavigationController
+            let bookDetailViewController = navViewController.viewControllers.first as! BookViewController
+            bookDetailViewController.category = category
         }
     }
     
     
-    @IBAction func unwindToMealList(sender: UIStoryboardSegue){
+    @IBAction func unwindToBookList(sender: UIStoryboardSegue){
+        
         if let sourceViewController = sender.sourceViewController as? BookViewController, book = sourceViewController.book{
+            //print("Index:", data.indexOf(category))
+            data.removeAtIndex(data.indexOf(category)!)
             if let selectedIndexPath = tableView.indexPathForSelectedRow{
                 // Update an existing book.
                 books[selectedIndexPath.row] = book
@@ -148,25 +147,39 @@ class BookTableViewController: UITableViewController {
                 // Add a new book.
                 let newIndexPath = NSIndexPath(forRow: books.count, inSection: 0)
                 books.append(book)
+                category.addBook(book)
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
             }
             // Save the books.
-            saveBooks()
+            
+            data.append(category)
+            
+            saveData()
         }
     }
+    
+    @IBAction func goBack(sender: UIBarButtonItem) {
+        print("Back clicked")
+        navigationController!.popViewControllerAnimated(true)
+    }
+    
     
     // MARK: NSCoding
     
-    func saveBooks(){
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(books, toFile: Book.ArchiveURL.path!)
+    func saveData(){
+        data.sortInPlace({$0.name < $1.name})
+        /*for category in data{
+            print(category.books)
+        }*/
+        
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(data, toFile: Category.ArchiveURL.path!)
         if !isSuccessfulSave{
             print("Failed to save books")
         }
+        
     }
     
-    func loadBooks() ->[Book]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(Book.ArchiveURL.path!) as? [Book]
-    }
+    
     
     
     

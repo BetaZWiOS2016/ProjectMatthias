@@ -9,13 +9,22 @@
 import UIKit
 
 class CategoryTableViewController: UITableViewController {
-
-    var categories = [Category]()
+    
+    var data : [Category] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadSampleCategories()
+        
+        if let savedData = loadData(){
+            data = savedData
+        }
+        
+        else{
+            // Load the sample data
+            data = Datasource.preloadData()
+        }
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -24,15 +33,7 @@ class CategoryTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    func loadSampleCategories(){
-        let photo1 = UIImage(named:"adventureGenre")!
-        let books = [Book]()
-        let category1 = Category(name: "Adventure", books: books, banner: photo1)!
-        
-        categories += [category1]
-        
-        
-    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -48,7 +49,7 @@ class CategoryTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return categories.count
+        return data.count
     
     }
 
@@ -58,7 +59,7 @@ class CategoryTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! CategoryTableViewCell
         
         // Fetches the appropriate meal for the data source layout
-        let category = categories[indexPath.row]
+        let category = data[indexPath.row]
         
         cell.categoryImage.image = category.banner
         
@@ -100,14 +101,27 @@ class CategoryTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowBooksForCategory"{
+            let bookListViewController = segue.destinationViewController as! BookTableViewController
+            if let selectedCategoryCell = sender as? CategoryTableViewCell{
+                let indexPath = tableView.indexPathForCell(selectedCategoryCell)!
+                let selectedCategory = data[indexPath.row]
+                bookListViewController.category = selectedCategory
+                bookListViewController.data = data
+            }
+        }
+        
     }
-    */
+    
+    func loadData() ->[Category]? {
+        print("loading savedData")
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Category.ArchiveURL.path!) as? [Category]
+    }
+
+    
 
 }

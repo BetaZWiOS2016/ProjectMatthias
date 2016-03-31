@@ -21,6 +21,7 @@ class BookViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     // This value is either passed by ‘MealTableViewController‘ in ‘prepareForSegue(_:sender:)‘ or constructed as part of adding a new meal
     var book: Book?
+    var category : Category!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,8 @@ class BookViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         
         // Enable the Save button only if the text field has a valid Book name.
         checkValidBookName()
+        
+        print("Category: ",category.name)
     }
     
     // MARK: UITextFieldDelegate

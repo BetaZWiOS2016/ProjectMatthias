@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Your books-->
@@ -59,11 +60,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Your books" id="ZMI-ve-cFm">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="BJY-tm-Ute">
-                            <connections>
-                                <segue destination="xJO-5B-MGI" kind="presentation" identifier="AddItem" id="aXa-hU-6IJ"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Back" id="D7t-bE-GVN">
+                                <connections>
+                                    <action selector="goBack:" destination="Rb3-lk-5eh" id="eun-6b-DKB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="add" id="BJY-tm-Ute">
+                                <connections>
+                                    <segue destination="xJO-5B-MGI" kind="presentation" identifier="AddItem" id="aXa-hU-6IJ"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UKt-ta-4wz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -124,7 +132,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="TJH-Zd-xMH">
                             <connections>
-                                <segue destination="qcJ-zs-6Iu" kind="unwind" unwindAction="unwindToMealList:" id="ET4-gQ-YPl"/>
+                                <segue destination="qcJ-zs-6Iu" kind="unwind" unwindAction="unwindToBookList:" id="5CM-nO-fQL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -154,6 +162,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" red="0.76862745099999996" green="0.40000000000000002" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryTableViewCell" rowHeight="70" id="lE9-du-Jn5" customClass="CategoryTableViewCell" customModule="ProjectIOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="70"/>
@@ -164,12 +173,14 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="defaultGenre" translatesAutoresizingMaskIntoConstraints="NO" id="JHo-sw-1zN">
                                             <rect key="frame" x="17" y="0.0" width="383" height="69"/>
+                                            <color key="backgroundColor" red="0.76862745098039209" green="0.40000000000000002" blue="0.090196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.80000000000000004" green="0.57647058823529407" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.76862745098039209" green="0.40000000000000002" blue="0.090196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="categoryImage" destination="JHo-sw-1zN" id="Mgh-j8-IW2"/>
+                                    <segue destination="Rb3-lk-5eh" kind="show" identifier="ShowBooksForCategory" id="1kP-Wn-Grf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -220,24 +231,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="be5-LK-chk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1454" y="416"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="hwZ-8T-uUz">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lZI-33-WAU" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BZd-ub-Sy7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Rb3-lk-5eh" kind="relationship" relationship="rootViewController" id="IhV-Ka-SXL"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lWz-Yu-LYp" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="907" y="472"/>
         </scene>
     </scenes>
     <resources>
