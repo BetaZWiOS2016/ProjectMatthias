@@ -66,6 +66,37 @@ class CategoryTableViewController: UITableViewController {
         return cell
     }
 
+    @IBAction func unwindToCategoryList(sender: UIStoryboardSegue){
+        
+        if let sourceViewController = sender.sourceViewController as? BookTableViewController, category = sourceViewController.category {
+            
+            let books = sourceViewController.books
+            category.books = books
+            saveData();
+            
+            //
+            
+            //print("Index:", data.indexOf(category))
+            /*data.removeAtIndex(data.indexOf(category)!)
+            if let selectedIndexPath = tableView.indexPathForSelectedRow{
+                // Update an existing book.
+                books[selectedIndexPath.row] = book
+                tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
+            }
+            else{
+                // Add a new book.
+                let newIndexPath = NSIndexPath(forRow: books.count, inSection: 0)
+                books.append(book)
+                category.addBook(book)
+                tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+            }
+            // Save the books.
+            
+            data.append(category)
+            
+            saveData()*/
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -113,6 +144,21 @@ class CategoryTableViewController: UITableViewController {
                 bookListViewController.category = selectedCategory
                 bookListViewController.data = data
             }
+        }
+        
+    }
+    
+    // MARK: NSCoding
+    
+    func saveData(){
+        data.sortInPlace({$0.name < $1.name})
+        /*for category in data{
+        print(category.books)
+        }*/
+        
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(data, toFile: Category.ArchiveURL.path!)
+        if !isSuccessfulSave{
+            print("Failed to save books")
         }
         
     }

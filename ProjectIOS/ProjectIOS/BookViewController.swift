@@ -41,7 +41,7 @@ class BookViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         // Enable the Save button only if the text field has a valid Book name.
         checkValidBookName()
         
-        print("Category: ",category.name)
+       
     }
     
     // MARK: UITextFieldDelegate
@@ -65,6 +65,8 @@ class BookViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        
         // The info dictionary contains multiple representations of the image, and this uses the original.
         let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         

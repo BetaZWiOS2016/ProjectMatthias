@@ -64,6 +64,7 @@
                             <barButtonItem title="Back" id="D7t-bE-GVN">
                                 <connections>
                                     <action selector="goBack:" destination="Rb3-lk-5eh" id="eun-6b-DKB"/>
+                                    <segue destination="444-h9-RYA" kind="unwind" unwindAction="unwindToCategoryList:" id="br6-dE-9uD"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="add" id="BJY-tm-Ute">
@@ -75,6 +76,7 @@
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UKt-ta-4wz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="444-h9-RYA" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1719" y="472"/>
         </scene>
@@ -109,12 +111,23 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Ggn-yt-kna" secondAttribute="height" multiplier="1:1" id="iDH-cf-h4W"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="2g2-XT-Q4C" appends="YES" id="ZMB-uE-1hq"/>
+                                        </connections>
                                     </imageView>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="yBW-JC-OFO" customClass="RatingControl" customModule="ProjectIOS" customModuleProvider="target">
                                         <rect key="frame" x="160" y="380" width="240" height="44"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="sUW-Kd-Rod" secondAttribute="trailing" id="5ky-ZH-oVu"/>
+                                    <constraint firstItem="sUW-Kd-Rod" firstAttribute="top" secondItem="UmU-1v-xnc" secondAttribute="top" id="FQk-a7-6iJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="u9g-Sb-kfg" secondAttribute="trailing" id="QJp-Wo-eDc"/>
+                                    <constraint firstItem="sUW-Kd-Rod" firstAttribute="leading" secondItem="UmU-1v-xnc" secondAttribute="leading" id="Tra-UE-yaO"/>
+                                    <constraint firstItem="u9g-Sb-kfg" firstAttribute="leading" secondItem="UmU-1v-xnc" secondAttribute="leading" id="gEC-QM-LAS"/>
+                                    <constraint firstItem="u9g-Sb-kfg" firstAttribute="top" secondItem="sUW-Kd-Rod" secondAttribute="bottom" id="ivP-Yl-Q88"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -132,7 +145,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="TJH-Zd-xMH">
                             <connections>
-                                <segue destination="qcJ-zs-6Iu" kind="unwind" unwindAction="unwindToBookList:" id="5CM-nO-fQL"/>
+                                <segue destination="qcJ-zs-6Iu" kind="unwind" unwindAction="unwindToBookList:" id="twO-fR-1Mt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -146,9 +159,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <exit id="qcJ-zs-6Iu" userLabel="Exit" sceneMemberID="exit"/>
-                <tapGestureRecognizer id="QOn-iF-irY">
+                <tapGestureRecognizer id="2g2-XT-Q4C">
                     <connections>
-                        <action selector="selectImageFromPhotoLibrary:" destination="BYZ-38-t0r" id="lxb-Mk-JuI"/>
+                        <action selector="selectImageFromPhotoLibrary:" destination="BYZ-38-t0r" id="Nvm-CC-GuE"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

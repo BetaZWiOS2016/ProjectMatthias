@@ -23,18 +23,11 @@ class BookTableViewController: UITableViewController {
         // Use the dit button item provided by the table view controller.
         navigationItem.leftBarButtonItem = editButtonItem()
         
-        // Load any saved books, otherwise load sample data.
-        loadBooks()
-        
+         books = (category?.books)!
+        self.title = category.name
        
     }
     
-    func loadBooks(){
-        
-        print(category?.books?.first?.title)
-        
-        books = (category?.books)!
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -84,7 +77,6 @@ class BookTableViewController: UITableViewController {
         if editingStyle == .Delete {
             // Delete the row from the data source
             books.removeAtIndex(indexPath.row)
-            saveData()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -137,24 +129,22 @@ class BookTableViewController: UITableViewController {
         
         if let sourceViewController = sender.sourceViewController as? BookViewController, book = sourceViewController.book{
             //print("Index:", data.indexOf(category))
-            data.removeAtIndex(data.indexOf(category)!)
+           
             if let selectedIndexPath = tableView.indexPathForSelectedRow{
                 // Update an existing book.
                 books[selectedIndexPath.row] = book
+                
+                
                 tableView.reloadRowsAtIndexPaths([selectedIndexPath], withRowAnimation: .None)
             }
             else{
                 // Add a new book.
                 let newIndexPath = NSIndexPath(forRow: books.count, inSection: 0)
                 books.append(book)
-                category.addBook(book)
+                //category.addBook(book)
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
             }
-            // Save the books.
-            
-            data.append(category)
-            
-            saveData()
+        
         }
     }
     
@@ -164,21 +154,8 @@ class BookTableViewController: UITableViewController {
     }
     
     
-    // MARK: NSCoding
     
-    func saveData(){
-        data.sortInPlace({$0.name < $1.name})
-        /*for category in data{
-            print(category.books)
-        }*/
-        
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(data, toFile: Category.ArchiveURL.path!)
-        if !isSuccessfulSave{
-            print("Failed to save books")
-        }
-        
-    }
-    
+   
     
     
     
